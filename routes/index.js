@@ -3,6 +3,7 @@ var router = express.Router();
 var path = require('path');
 var fs = require('fs');
 var sanitizeHtml = require('sanitize-html');
+//template 파일을 이용해서 필요한 body값을 넣어주면 공통적인 html 코드를 자동 생성
 var template = require('../lib/template.js');
 
 //간호사 인증용 로그인 페이지
