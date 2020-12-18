@@ -13,21 +13,39 @@ router.get('/:patientId', function (request, response) {
     var title = 'index';
     var html = page.HTML(title,
         `
-        <div class="calendar"></div>
-        <form class="calendar-form">
-            <div class="control-group">
-                <label class="control-label" for="class-input">Class: </label>
-                <input class="control-input" type="text" id="class-input" placeholder="Type class name here..."/>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="date-input">Selected date: </label>
-                <input class="control-input" type="date" id="date-input" placeholder="Type date in format M/D/YYYY..."/>
-            </div>
-            <div class="control-group">
-                <button type="submit">Change</button>
-            </div>
-        </form>
-        <script src="../js/calendar.js"></script>
+        <div class="col-md-2">
+            <br>
+            <ul class="list-group">
+                <li class="list-group-item active">1번 환자
+                <li class="list-group-item">2번 환자
+                <li class="list-group-item">3번 환자
+                <li class="list-group-item">4번 환자
+                <li class="list-group-item">5번 환자
+                <li class="list-group-item">6번 환자
+                <li class="list-group-item">7번 환자
+                <li class="list-group-item">8번 환자
+                <li class="list-group-item">9번 환자
+                <li class="list-group-item">10번 환자
+            </ul>
+        </div>
+        <div class="col-md-10">
+            <br>
+            <div class="calendar"></div>
+            <form class="calendar-form">
+                <div class="control-group">
+                    <label class="control-label" for="class-input">Class: </label>
+                    <input class="control-input" type="text" id="class-input" placeholder="Type class name here..."/>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="date-input">Selected date: </label>
+                    <input class="control-input" type="date" id="date-input" placeholder="Type date in format M/D/YYYY..."/>
+                </div>
+                <div class="control-group">
+                    <button type="submit">Change</button>
+                </div>
+            </form>
+            <script src="../js/calendar.js"></script>
+        </div>
         `
         //화면에 출력할 html body
     );
