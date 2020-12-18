@@ -12,19 +12,28 @@ router.get('/', function (request, response) {
     var title = 'index';
     var html = template.HTML(title,
         `
-        <p><img src="./images/logo/케어커넥트 로고 기본.jpg" style="width:300px;"></p>
-        아이디 : <input type="text" name="id" required pattern="^([A-Za-z0-9]){6,15}"><br><br>
-        비밀번호 : <input type="password" name="password" required pattern="^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*"><br><br>
-        <input type="submit" value="로그인" formaction="login_ex.php" formmethod="POST">
-        <input type="submit" value="회원 가입" formaction="join_ex.php" formmethod="POST">
+        <div class="container" style="text-align: center;">
+            <form action="/login" method="post">
+                <p><img src="./images/logo/케어커넥트 로고 기본.jpg" style="width:300px;"></p>
+                <input type="email" class="form-control" name="user_id" placeholder="Email">
+                <br><input type="password" class="form-control" name="user_pwd" placeholder="Password">
+                <br><button class="btn btn-primary">로그인</button>
+            </form>
+        </div>
         `
         //화면에 출력할 html body
     );
+    sess = request.session;
     response.send(html);
 });
 
 router.post('/login', function(request, response){  //로그인
-    
+    console.log(request.body);
+    var id = request.body.user_id;
+    var password = request.body.user_pwd;
+    request.session.logined = true;
+    request.session.user_id = id;
+    response.redirect("/list");
 });
 
 module.exports = router;

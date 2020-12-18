@@ -5,7 +5,15 @@ var fs = require('fs');
 var bodyParser = require('body-parser');
 var compression = require('compression');
 var helmet = require('helmet')
-app.use(helmet());
+app.use(helmet({
+  contestSecurityPolicy: false
+}));
+var session = require('express-session');
+app.use(session({
+  secret:"asdfasdf",
+  resave: false,
+  saveUninitialized: true
+}));
 
 var indexRouter = require('./routes/index');
 var listRouter = require('./routes/patient_list');
@@ -18,9 +26,15 @@ app.use(compression());
 
 //필요한 주요 페이지 4개
 app.use('/', indexRouter);
-//app.use('/list', listRouter);
-//app.use('/data', dataRouter);
-//app.use('/comment', commentRouter);
+app.use('/list', listRouter);
+app.use('/data', dataRouter);
+app.use('/comment', commentRouter);
+
+//bootstrap
+app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
+app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
+
+app.use('/chart', express.static(__dirname + '/node_modules/chart.js/dist'));
 
 //예외처리
 app.use(function(req, res, next) {
