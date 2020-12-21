@@ -9,11 +9,7 @@ app.use(helmet({
   contestSecurityPolicy: false
 }));
 var session = require('express-session');
-app.use(session({
-  secret:"asdfasdf",
-  resave: false,
-  saveUninitialized: true
-}));
+var MySQLStore = require('express-mysql-session')(session);
 
 var indexRouter = require('./routes/index');
 var listRouter = require('./routes/patient_list');
@@ -23,6 +19,20 @@ var commentRouter = require('./routes/patient_comment');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(compression());
+
+//DB
+app.use(session({
+  secret: 'asdf',
+  resave: false,
+  saveUninitialized: true,
+	store: new MySQLStore({
+      host:"localhost",
+      user:"root",
+      password:"0312",
+      database:"care_connect",
+      port:3306
+    })
+}));
 
 //필요한 주요 페이지 4개
 app.use('/', indexRouter);

@@ -5,10 +5,19 @@ var fs = require('fs');
 var sanitizeHtml = require('sanitize-html');
 //template 파일을 이용해서 필요한 body값을 넣어주면 공통적인 html 코드를 자동 생성
 var template = require('../lib/template.js');
-
+var mysql = require('mysql');
+var db = mysql.createConnection({
+    host:"localhost",
+    user:"root",
+    password:"0312",
+    database:"care_connect",
+    port:3306
+});
 //간호사 인증용 로그인 페이지
 
-router.get('/', function (request, response) {
+router.get('/', function (req, res) {
+    
+    
     var title = 'index';
     var html = template.HTML(title,
         `
@@ -23,17 +32,44 @@ router.get('/', function (request, response) {
         `
         //화면에 출력할 html body
     );
-    sess = request.session;
-    response.send(html);
+    sess = req.session;
+
+    res.send(html);
 });
 
-router.post('/login', function(request, response){  //로그인
-    console.log(request.body);
-    var id = request.body.user_id;
-    var password = request.body.user_pwd;
-    request.session.logined = true;
-    request.session.user_id = id;
-    response.redirect("/list");
+router.post('/login', function(req, res){  //로그인
+    console.log(req.body);
+    var id = req.body.user_id;
+    var password = req.body.user_pwd;
+    db.query('SELECT * FROM users WHERE email = ?', [id],
+    function( error, results, fields) {
+        if (error) {
+            // console.log("error ocurred", error);
+            res.send({
+                "code": 400,
+                "failed": "error ocurred"
+            })
+        } else {
+            // console.log('The solution is: ', results);
+            if(results.length > 0) {
+                if(results[0].password == password) {
+                    req.session.logined = true;
+                    req.session.user_id = id;
+                    res.redirect("/list");
+                } else {
+                    res.send({
+                        "code": 204,
+                        "success": "Email and password does not match"
+                    });
+                }
+            } else {
+                res.send({
+                    "code":204,
+                    "success": "Email does not exists"
+                });
+            }
+        }    
+    }) 
 });
 
 module.exports = router;
