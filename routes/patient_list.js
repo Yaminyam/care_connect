@@ -10,7 +10,7 @@ var page = require('../lib/page.js')
 //환자 목록 페이지
 
 router.get('/', function (request, response) {
-    var title = 'index';
+    var title = 'list';
     var html = page.HTML(title,
         `
         <div class="col-md-12">

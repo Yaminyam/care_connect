@@ -10,7 +10,7 @@ var page = require('../lib/page.js');
 //환자의 건강 상태 차트 및 데이터
 
 router.get('/:patientId', function (request, response) {
-    var title = 'index';
+    var title = 'data';
     var html = page.HTML(title,
         `
         <div class="col-md-2">

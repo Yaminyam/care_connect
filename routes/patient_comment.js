@@ -10,7 +10,7 @@ var page = require('../lib/page.js')
 //주간 환자 상태 체크 코멘트
 
 router.get('/:patientId', function (request, response) {
-    var title = 'index';
+    var title = 'comment';
     var html = page.HTML(title,
         `
         <div class="col-md-2">
