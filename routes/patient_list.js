@@ -20,7 +20,7 @@ router.get('/', function (request, response) {
     var title = 'list';
     var id = request.session.user_id;
     db.query(`SELECT * FROM patient`, function(error, patients){
-        var list = template.data_list(patients);
+        var list = template.patient_list(patients);
         var html = page.HTML(title, id, "",
             `
             <div class="col-md-12">

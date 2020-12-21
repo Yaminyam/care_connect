@@ -26,19 +26,6 @@ router.get('/:patientId', function (request, response) {
             <div class="col-md-10">
                 <br>
                 <div class="calendar"></div>
-                <form class="calendar-form">
-                    <div class="control-group">
-                        <label class="control-label" for="class-input">Class: </label>
-                        <input class="control-input" type="text" id="class-input" placeholder="Type class name here..."/>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="date-input">Selected date: </label>
-                        <input class="control-input" type="date" id="date-input" placeholder="Type date in format M/D/YYYY..."/>
-                    </div>
-                    <div class="control-group">
-                        <button type="submit">Change</button>
-                    </div>
-                </form>
                 <script src="../js/calendar.js"></script>
             </div>
             `

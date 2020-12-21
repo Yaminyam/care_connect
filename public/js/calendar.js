@@ -1,6 +1,5 @@
 /**
- * Creates a new 'Calendar' class instance
- * @class Calendar
+ * calendar instance
  */
 class Calendar {
     /**
@@ -20,9 +19,7 @@ class Calendar {
       this.selectedDate = initialDate;
       this.currentMonth = initialDate;
       this.currentMonthDays = [];
-  
-      // Months human readable names, to be used inside
-      // getFormattedDate() function
+
       this.monthsNames = [
       "January",
       "February",
@@ -37,14 +34,12 @@ class Calendar {
       "November",
       "December"];
   
-      // initizlize markup and bootstrap application events
       this.generateMarkup();
       this.bootstrapEvents();
     }
   
     /**
-       * Generate selected month visible dates
-       * @function buildCurrentMonthDays
+       * 현재 달력의 화면 생성
        */
     buildCurrentMonthDays() {
       var curYear = this.currentMonth.getFullYear(),
@@ -52,20 +47,19 @@ class Calendar {
       firstMonthDay = new Date(curYear, curMonth, 1),
       lastMonthDay = new Date(curYear, curMonth + 1, 0);
   
-      // clear previously selected month generated days
       this.currentMonthDays = [];
   
-      // push visible previous month days
+      // 현재 달력의 저번달
       for (let i = -firstMonthDay.getUTCDay(); i < 0; i++) {
         this.currentMonthDays.push(new Date(curYear, curMonth, i));
       }
   
-      // push current month days
+      // 현재 달력의 이번달
       for (let i = 1, lastDay = lastMonthDay.getDate(); i <= lastDay; i++) {
         this.currentMonthDays.push(new Date(curYear, curMonth, i));
       }
   
-      // push visible next month days
+      // 현재 달력의 다음달
       for (
       let i = 1, daysAppend = 7 - lastMonthDay.getUTCDay();
       i < daysAppend;
@@ -146,8 +140,7 @@ class Calendar {
       return days.join("");
     }
     /**
-       * Refresh calendar view
-       * @function refreshCalendar
+       * 달력 새로고침
        */
     refreshCalendar() {
       // refresh days-list
@@ -160,8 +153,7 @@ class Calendar {
       innerHTML = this.getFormattedDate(this.currentMonth);
     }
     /**
-       * Switch calendar to previous month
-       * @function prevMonth
+       * 저번달
        */
     prevMonth() {
       var curYear = this.currentMonth.getFullYear(),
@@ -172,8 +164,7 @@ class Calendar {
       this.refreshCalendar();
     }
     /**
-       * Switch calendar to next month
-       * @function nextMonth
+       * 다음달
        */
     nextMonth() {
       var curYear = this.currentMonth.getFullYear(),
@@ -184,10 +175,7 @@ class Calendar {
       this.refreshCalendar();
     }
     /**
-       * Update calendar options
-       * @function update
-       * @param {string} [option='selectedDate'|'activeDateClass'] - name of option to be updated
-       * @param {string} value - value of option to be updated
+       * 달력 업데이트
        */
     update(option, value) {
       if (option === "selectedDate") {
@@ -206,9 +194,7 @@ class Calendar {
       this.refreshCalendar();
     }
     /**
-       * Select day. Used as event handler for day-list__item 'click'
-       * @function selectDay
-       * @prop {Object} event - represents 'click' event object
+       * 특정 일 선택
        */
     selectDay(event) {
       var $target = event.target;
@@ -258,8 +244,7 @@ class Calendar {
       }
     }
     /**
-       * Generate initial calendar markup
-       * @function generateMarkup
+       * 달력 출력
        */
     generateMarkup() {
       // if container query wasn't specified
@@ -301,8 +286,7 @@ class Calendar {
   `;
     }
     /**
-       * Bootstrap calendar specific events
-       * @function bootstrapEvents
+       * 버튼 이벤트
        */
     bootstrapEvents() {
       // prev month button event handler
@@ -324,18 +308,3 @@ class Calendar {
   // handler
   var calendar = new Calendar({
     container: ".calendar" });
-  
-  
-  function changeCalendarOptions(event) {
-    event.preventDefault();
-  
-    var classValue = document.getElementById("class-input").value;
-    var dateValue = document.getElementById("date-input").value;
-  
-    classValue.trim() && calendar.update("activeDateClass", classValue);
-    dateValue.trim() && calendar.update("selectedDate", dateValue);
-  }
-  
-  document.
-  querySelector(".calendar-form").
-  addEventListener("submit", changeCalendarOptions);

@@ -19,6 +19,14 @@ var db = mysql.createConnection({
 router.get('/:patientId', function (request, response) {
     var title = 'data';
     var id = request.session.user_id;
+    var patient_data_after;
+    var patient_data_before;
+    db.query(`SELECT * FROM blood_sugar_before WHERE name='${request.params.patientId}'`, function(error, patient) {
+        patient_data_before = template.data_list(patient, "공복혈당");
+    });
+    db.query(`SELECT * FROM blood_sugar_after WHERE name='${request.params.patientId}'`, function(error, patient) {
+        patient_data_after = template.data_list(patient, "식후혈당");
+    });
     db.query(`SELECT * FROM patient`, function(error, patients) {
         var list = template.list(patients, request.params.patientId);
         var html = page.HTML(title, id, list,
@@ -26,12 +34,9 @@ router.get('/:patientId', function (request, response) {
             <div class="col-md-10">
                 <br>
                 <div class="col-md-12">
-                    <div id="container" style="width: 75%;">
+                    <div id="container" style="width: 100%;">
                         <canvas id="canvas"></canvas>
                     </div>
-                    <button class="btn btn-primary" id="randomizeData">Randomize Data</button>
-                    <button class="btn btn-primary" id="addDataset">Add Dataset</button>
-                    <button class="btn btn-primary" id="removeDataset">Remove Dataset</button>
                     <button class="btn btn-primary" id="addData">Add Data</button>
                     <button class="btn btn-primary" id="removeData">Remove Data</button>
                     <script src="/chart/Chart.js"></script>
@@ -44,42 +49,23 @@ router.get('/:patientId', function (request, response) {
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">이름</th>
-                                <th scope="col">나이</th>
-                                <th scope="col">병명</th>
-                                <th scope="col">정기검사요일</th>
-                                <th scope="col">평균 공복 혈당</th>
-                                <th scope="col">평균 식후 혈당</th>
+                                <th scope="col">JAN</th>
+                                <th scope="col">FEB</th>
+                                <th scope="col">MAR</th>
+                                <th scope="col">APR</th>
+                                <th scope="col">MAY</th>
+                                <th scope="col">JUN</th>
+                                <th scope="col">JUL</th>
+                                <th scope="col">AUG</th>
+                                <th scope="col">SEP</th>
+                                <th scope="col">OCT</th>
+                                <th scope="col">NOV</th>
+                                <th scope="col">DEC</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>40</td>
-                                <td>1형 당뇨</td>
-                                <td>WED</td>
-                                <td>126mg/dL</td>
-                                <td>200mg/dL</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>23</td>
-                                <td>2형 당뇨</td>
-                                <td>MON</td>
-                                <td>140mg/dL</td>
-                                <td>210mg/dL</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>41</td>
-                                <td>1형 당뇨</td>
-                                <td>SAT</td>
-                                <td>135mg/dL</td>
-                                <td>220mg/dL</td>
-                            </tr>
+                            ${patient_data_before}
+                            ${patient_data_after}
                         </tbody>
                     </table>
                 </div>
