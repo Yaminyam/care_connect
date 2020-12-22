@@ -14,13 +14,13 @@ for(var i = 1; i < chartdata_after.children.length; i++) {
 var barChartData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [{
-        label: 'Dataset 1',
+        label: '공복혈당',
         backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
         borderColor: window.chartColors.red,
         borderWidth: 1,
         data: before_data
     }, {
-        label: 'Dataset 2',
+        label: '식후혈당',
         backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
         borderColor: window.chartColors.blue,
         borderWidth: 1,
@@ -46,8 +46,8 @@ window.onload = function () {
             scales: {
                 yAxes: [{
                     ticks: {
-                        suggestedMin: 80,
-                        suggestedMax: 250
+                        min: 80,
+                        max: 250
                     }
                 }]
             }

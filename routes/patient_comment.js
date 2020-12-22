@@ -44,6 +44,19 @@ router.get('/:patientId/:date', function (request, response) {
     var year = request.params.date.split('-')[0];
     var month = request.params.date.split('-')[1];
     var day = request.params.date.split('-')[2];
+    var comment_input =
+    `
+    <div class="container" style="text-align: center;">
+        <form action="../comment_process" method="post">
+            <input type="hidden" class="form-control" name="name" value=${request.params.patientId}>
+            <input type="hidden" class="form-control" name="year" value=${year}>
+            <input type="hidden" class="form-control" name="month" value=${month}>
+            <input type="hidden" class="form-control" name="day" value=${day}>
+            <br><input type="text" class="form-control" name="comment" placeholder="Comment">
+            <br><button class="btn btn-primary">등록</button>
+        </form>
+    </div>
+    `;
     console.log(`SELECT comment FROM comment_${year}_${month} WHERE name='${request.params.patientId}' AND day='${day}'`);
     db.query(`SELECT comment FROM comment_${year}_${month} WHERE name='${request.params.patientId}' AND day='${day}'`, function(error, comment) {
         if(comment.length == 0){
@@ -67,6 +80,7 @@ router.get('/:patientId/:date', function (request, response) {
                 <div class="calendar"></div>
                 <script src="../js/calendar.js"></script>
                 ${comment_box}
+                ${comment_input}
             </div>
             `
             //화면에 출력할 html body
@@ -75,8 +89,20 @@ router.get('/:patientId/:date', function (request, response) {
     });
 });
 
-router.post('/update_process', function (request, response) {  
-    //날짜별 코멘트 수정
+router.post('/comment_process', function (req, res) {  
+    //코멘트 등록
+    console.log(req.body.comment);
+    var sql = `INSERT INTO comment_${req.body.year}_${req.body.month} VALUES(?,?,?)`
+    var param = [req.body.name,req.body.day,req.body.comment];
+    db.query(sql, param, function(err, rows) {
+        if (err){
+            console.log(err);
+        }
+        else{
+            console.log(rows.insertId);
+            res.redirect(`/comment/${req.body.name}/${req.body.year}-${req.body.month}-${req.body.day}`);
+        }
+    });
 });
 
 module.exports = router;
