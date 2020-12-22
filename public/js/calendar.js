@@ -8,7 +8,8 @@ class Calendar {
     constructor({
       container = "",
       activeDateClass = "",
-      initialDate = new Date() } =
+      now_date = location.href.split('/')[(location.href.split('/').length-1)],
+      initialDate = new Date(now_date) } =
     {}) {
       this.$container = container ? document.querySelector(container) : null;
       this.activeDateClass = activeDateClass;
@@ -113,8 +114,15 @@ class Calendar {
   
       }.bind(this));
   
-  
       return days.join("");
+    }
+    getFormatDate(date){
+      var year = date.getFullYear();
+      var month = (1 + date.getMonth());
+      month = month >= 10 ? month : '0' + month;
+      var day = date.getDate();
+      day = day >= 10 ? day : '0' + day;
+      return year + '-' + month + '-' + day;
     }
     /**
       * 달력 새로고침
@@ -201,6 +209,8 @@ class Calendar {
 
         $target.classList.add("wc-calendar__days-list__item--active");
         this.activeDateClass && $target.classList.add(this.activeDateClass);
+
+        window.location.href = `./${this.getFormatDate(this.selectedDate)}`;
       }
     }
     /**
@@ -216,28 +226,28 @@ class Calendar {
       }
       this.$container.classList.add("wc-calendar");
       this.$container.innerHTML = `
-  <div class="wc-calendar__header">
-    <button class="wc-calendar__btn wc-calendar__btn--prev">Prev</button>
-    <div class="wc-calendar__header__date">${this.getFormattedDate(
-      this.currentMonth)
-      }</div>
-    <button class="wc-calendar__btn wc-calendar__btn--next">Next</button>
-  </div>
-  <div class="wc-calendar__body">
-    <ul class="wc-calendar__days-names">
-      <li class="wc-calendar__days-names__item">Mon</li>
-      <li class="wc-calendar__days-names__item">Tue</li>
-      <li class="wc-calendar__days-names__item">Wed</li>
-      <li class="wc-calendar__days-names__item">Thu</li>
-      <li class="wc-calendar__days-names__item">Fri</li>
-      <li class="wc-calendar__days-names__item">Sat</li>
-      <li class="wc-calendar__days-names__item">Sun</li>
-    </ul>
-    <ul class="wc-calendar__days-list">
-      ${this.generateDaysMarkup()}
-    </ul>
-  </div>
-  `;
+      <div class="wc-calendar__header">
+        <button class="wc-calendar__btn wc-calendar__btn--prev">Prev</button>
+        <div class="wc-calendar__header__date">${this.getFormattedDate(
+          this.currentMonth)
+          }</div>
+        <button class="wc-calendar__btn wc-calendar__btn--next">Next</button>
+      </div>
+      <div class="wc-calendar__body">
+        <ul class="wc-calendar__days-names">
+          <li class="wc-calendar__days-names__item">Mon</li>
+          <li class="wc-calendar__days-names__item">Tue</li>
+          <li class="wc-calendar__days-names__item">Wed</li>
+          <li class="wc-calendar__days-names__item">Thu</li>
+          <li class="wc-calendar__days-names__item">Fri</li>
+          <li class="wc-calendar__days-names__item">Sat</li>
+          <li class="wc-calendar__days-names__item">Sun</li>
+        </ul>
+        <ul class="wc-calendar__days-list">
+          ${this.generateDaysMarkup()}
+        </ul>
+      </div>
+      `;
     }
     /**
       * 버튼 이벤트

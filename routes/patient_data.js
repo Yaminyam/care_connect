@@ -19,53 +19,9 @@ router.get('/', function(request, response) {
     var title = 'data';
     var id = request.session.user_id;
     db.query(`SELECT * FROM patient`, function(error, patients) {
-        var list = template.list(patients, request.params.patientId);
-            var html = page.HTML(title, id, list,
-                `
-                <div class="col-md-10">
-                    <br>
-                    <div class="col-md-12">
-                        <div id="container" style="width: 100%;">
-                            환자를 선택해주세요.
-                        </div>
-                        <button class="btn btn-primary" id="addData">Add Data</button>
-                        <button class="btn btn-primary" id="removeData">Remove Data</button>
-                        <script src="/chart/Chart.js"></script>
-                        <script src="../js/utils.js"></script>
-                        <script src="../js/chart.js"></script>
-                    </div>
-                    <br>
-                    <div class="col-md-12">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">JAN</th>
-                                    <th scope="col">FEB</th>
-                                    <th scope="col">MAR</th>
-                                    <th scope="col">APR</th>
-                                    <th scope="col">MAY</th>
-                                    <th scope="col">JUN</th>
-                                    <th scope="col">JUL</th>
-                                    <th scope="col">AUG</th>
-                                    <th scope="col">SEP</th>
-                                    <th scope="col">OCT</th>
-                                    <th scope="col">NOV</th>
-                                    <th scope="col">DEC</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                `
-                //화면에 출력할 html body
-            );
-        response.send(html);
+        response.redirect(`/data/${patients[0].name}`);
     })
-})
+});
 router.get('/:patientId', function (request, response) {
     var title = 'data';
     var id = request.session.user_id;
@@ -78,7 +34,7 @@ router.get('/:patientId', function (request, response) {
         patient_data_after = template.data_list(patient, "식후혈당");
     });
     db.query(`SELECT * FROM patient`, function(error, patients) {
-        var list = template.list(patients, request.params.patientId);
+        var list = template.list(patients, request.params.patientId, title);
         var html = page.HTML(title, id, list,
             `
             <div class="col-md-10">
