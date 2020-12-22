@@ -1,5 +1,16 @@
 var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 var color = Chart.helpers.color;
+
+var chartdata_before = document.getElementById("공복혈당");
+var before_data = [];
+var chartdata_after = document.getElementById("식후혈당");
+var after_data = [];
+for(var i = 1; i < chartdata_before.children.length; i++) {
+    before_data.push(chartdata_before.children[i].childNodes[0].nodeValue);
+}
+for(var i = 1; i < chartdata_after.children.length; i++) {
+    after_data.push(chartdata_after.children[i].childNodes[0].nodeValue);
+}
 var barChartData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [{
@@ -7,29 +18,13 @@ var barChartData = {
         backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
         borderColor: window.chartColors.red,
         borderWidth: 1,
-        data: [
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor()
-        ]
+        data: before_data
     }, {
         label: 'Dataset 2',
         backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
         borderColor: window.chartColors.blue,
         borderWidth: 1,
-        data: [
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor()
-        ]
+        data: after_data
     }]
 
 };
@@ -37,7 +32,7 @@ var barChartData = {
 window.onload = function () {
     var ctx = document.getElementById('canvas').getContext('2d');
     window.myBar = new Chart(ctx, {
-        type: 'bar',
+        type: 'line',
         data: barChartData,
         options: {
             responsive: true,
@@ -47,14 +42,18 @@ window.onload = function () {
             title: {
                 display: true,
                 text: 'Chart.js Bar Chart'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        suggestedMin: 80,
+                        suggestedMax: 250
+                    }
+                }]
             }
         }
     });
-
 };
-
-var colorNames = Object.keys(window.chartColors);
-
 
 document.getElementById('addData').addEventListener('click', function () {
     if (barChartData.datasets.length > 0) {

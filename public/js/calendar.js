@@ -3,11 +3,8 @@
  */
 class Calendar {
     /**
-                   * @constructor
-                   * @param {string} container - represents calendar container DOM query
-                   * @param {string} activeDateClass - represents custom class for selected date
-                   * @param {Date} initialDate - represents initially selected calendar date
-                   */
+      * 달력
+      */
     constructor({
       container = "",
       activeDateClass = "",
@@ -39,8 +36,8 @@ class Calendar {
     }
   
     /**
-       * 현재 달력의 화면 생성
-       */
+      * 현재 달력의 화면 생성
+      */
     buildCurrentMonthDays() {
       var curYear = this.currentMonth.getFullYear(),
       curMonth = this.currentMonth.getMonth(),
@@ -70,10 +67,8 @@ class Calendar {
     }
   
     /**
-       * Generate 'days-list__item' element class
-       * @function getDayClass
-       * @return {string} - represents element class string
-       */
+      * 현재 달력 일 계산
+      */
     getDayClass(date) {
       var classes = ["wc-calendar__days-list__item"],
       curYear = this.currentMonth.getFullYear(),
@@ -81,52 +76,34 @@ class Calendar {
       firstMonthDay = new Date(curYear, curMonth, 1),
       lastMonthDay = new Date(curYear, curMonth + 1, 0);
   
-      // if date is selectedDate
       if (date.toDateString() === this.selectedDate.toDateString()) {
-        // add default and custom active classes
         classes = classes.concat([
         "wc-calendar__days-list__item--active",
         this.activeDateClass]);
-  
       }
-      // if date is from previous year
       if (date.getMonth() === 11 && this.currentMonth.getMonth() === 0) {
-        // mark as previous month date
         classes.push("wc-calendar__days-list__item--prev-month");
-        // if date is from next year
       } else if (date.getMonth() === 0 && this.currentMonth.getMonth() === 11) {
-        // mark as next month date
         classes.push("wc-calendar__days-list__item--next-month");
-        // if date is from previous month
       } else if (date.getMonth() < this.currentMonth.getMonth()) {
         classes.push("wc-calendar__days-list__item--prev-month");
-        // if date is from next month
       } else if (date.getMonth() > this.currentMonth.getMonth()) {
         classes.push("wc-calendar__days-list__item--next-month");
       }
-  
-      // return element class string
       return classes.join(" ");
     }
     /**
-       * Utility function for showing formatted date of type 'MonthName YYYY'
-       * @function gerFormattedDate
-       * @param {Date} date - represents date object which shall be formatted
-       * @return {string} - represents formatted date
-       */
+      * 년 월 변환
+      */
     getFormattedDate(date) {
       return `${date.getFullYear()} ${this.monthsNames[date.getMonth()]}`;
     }
     /**
-       * Generate HTML string markup for visible calendar dates
-       * @function generateDaysMarkup
-       * @return {string} - represents HTML markup for currently selected month days
-       */
+      * 현재 달력 생성
+      */
     generateDaysMarkup() {
       var days = [];
-      // build month days list
       this.buildCurrentMonthDays();
-      // generate markup for each month day
       this.currentMonthDays.forEach(
       function (day) {
         days.push(
@@ -140,43 +117,37 @@ class Calendar {
       return days.join("");
     }
     /**
-       * 달력 새로고침
-       */
+      * 달력 새로고침
+      */
     refreshCalendar() {
-      // refresh days-list
       this.$container.querySelector(
       ".wc-calendar__days-list").
       innerHTML = this.generateDaysMarkup();
-      // refresh calendar header date
       this.$container.querySelector(
       ".wc-calendar__header__date").
       innerHTML = this.getFormattedDate(this.currentMonth);
     }
     /**
-       * 저번달
-       */
+      * 저번달
+      */
     prevMonth() {
       var curYear = this.currentMonth.getFullYear(),
       curMonth = this.currentMonth.getMonth();
-      // set currentMonth to month before
       this.currentMonth = new Date(curYear, curMonth - 1, 1);
-      // refresh calendar view
       this.refreshCalendar();
     }
     /**
-       * 다음달
-       */
+      * 다음달
+      */
     nextMonth() {
       var curYear = this.currentMonth.getFullYear(),
       curMonth = this.currentMonth.getMonth();
-      // set currentMonth to month after
       this.currentMonth = new Date(curYear, curMonth + 1, 1);
-      // refresh calendar view
       this.refreshCalendar();
     }
     /**
-       * 달력 업데이트
-       */
+      * 달력 업데이트
+      */
     update(option, value) {
       if (option === "selectedDate") {
         let date = new Date(value);
@@ -194,11 +165,10 @@ class Calendar {
       this.refreshCalendar();
     }
     /**
-       * 특정 일 선택
-       */
+      * 특정 일 선택
+      */
     selectDay(event) {
       var $target = event.target;
-      // Act only if 'day-list__item' was clicked
       if ($target.classList.contains("wc-calendar__days-list__item")) {
         let isPrevMonth = $target.classList.contains(
         "wc-calendar__days-list__item--prev-month"),
@@ -209,58 +179,42 @@ class Calendar {
   
         this.selectedDate = new Date($target.dataset.date);
   
-        // if element represents date from either previous or next month
         if (isPrevMonth || isNextMonth) {
-          // if previous month
           if (isPrevMonth) {
-            // switch calendar to month before
             this.prevMonth();
-            // if next
           } else {
-            // switch calendar to month after
             this.nextMonth();
           }
-          // select date element from currently rendered month
           $target = this.$container.querySelector(
           `[data-date="${this.selectedDate.toLocaleDateString()}"]`);
   
-          // if element represents currently rendered month
         } else {
           let $activeItem = this.$container.querySelector(
           ".wc-calendar__days-list__item--active");
   
-          // if there already is element with active class
           if ($activeItem) {
-            // remove active class from element
             $activeItem.classList.remove("wc-calendar__days-list__item--active");
-            // if custom active class was specified - remove this class
             this.activeDateClass &&
             $activeItem.classList.remove(this.activeDateClass);
           }
         }
-        // add default and custom active classes to selected date element
+
         $target.classList.add("wc-calendar__days-list__item--active");
         this.activeDateClass && $target.classList.add(this.activeDateClass);
       }
     }
     /**
-       * 달력 출력
-       */
+      * 달력 출력
+      */
     generateMarkup() {
-      // if container query wasn't specified
       if (!this.$container) {
-        // create new container element
         let fragment = document.createDocumentFragment(),
         calendarContainer = document.createElement("div");
         fragment.appendChild(calendarContainer);
-        // append container to body
         document.body.appendChild(calendarContainer);
-        // save new container reference
         this.$container = calendarContainer;
       }
-      // add default class for container
       this.$container.classList.add("wc-calendar");
-      // form calendar markup
       this.$container.innerHTML = `
   <div class="wc-calendar__header">
     <button class="wc-calendar__btn wc-calendar__btn--prev">Prev</button>
@@ -286,25 +240,23 @@ class Calendar {
   `;
     }
     /**
-       * 버튼 이벤트
-       */
+      * 버튼 이벤트
+      */
     bootstrapEvents() {
-      // prev month button event handler
       this.$container.
       querySelector(".wc-calendar__btn--prev").
       addEventListener("click", this.prevMonth.bind(this));
-      // next month button event handler
+
       this.$container.
       querySelector(".wc-calendar__btn--next").
       addEventListener("click", this.nextMonth.bind(this));
-      // select day item delegated to days-list event handler
+
       this.$container.
       querySelector(".wc-calendar__days-list").
       addEventListener("click", this.selectDay.bind(this));
     }}
   
   
-  // Testing part. Contains calendar initialization and calendar testing form
-  // handler
   var calendar = new Calendar({
-    container: ".calendar" });
+    container: ".calendar" 
+  });
