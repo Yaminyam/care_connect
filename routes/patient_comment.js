@@ -7,6 +7,8 @@ var sanitizeHtml = require('sanitize-html');
 //template 파일을 이용해서 필요한 body값을 넣어주면 공통적인 html 코드를 자동 생성
 var template = require('../lib/template.js');
 var page = require('../lib/page.js')
+
+//db 설정
 var mysql = require('mysql');
 var db = mysql.createConnection({
     host:"localhost",
@@ -63,7 +65,7 @@ router.get('/:patientId/:date', function (request, response) {
     `;
     console.log(`SELECT comment FROM comment_${year}_${month} WHERE name='${request.params.patientId}' AND day='${day}'`);
     db.query(`SELECT comment FROM comment_${year}_${month} WHERE name='${request.params.patientId}' AND day='${day}'`, function(error, comment) {
-        if(comment.length == 0){
+        if(comment.length == 0){    //코멘트가 없을 경우
             comment_box = `
             <div class="card">
                 <div class="card-body">
@@ -71,7 +73,7 @@ router.get('/:patientId/:date', function (request, response) {
                 </div>
             </div>
             `;
-        }else{
+        }else{                      //코멘트가 있을 경우
             comment_box = template.comment(comment);
         }
     });

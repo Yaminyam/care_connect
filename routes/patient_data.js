@@ -6,6 +6,8 @@ var sanitizeHtml = require('sanitize-html');
 //template 파일을 이용해서 필요한 body값을 넣어주면 공통적인 html 코드를 자동 생성
 var template = require('../lib/template.js');
 var page = require('../lib/page.js');
+
+//db 설정
 var mysql = require('mysql');
 var db = mysql.createConnection({
     host:"localhost",
@@ -30,13 +32,16 @@ router.get('/:patientId', function (request, response) {
     var id = request.session.user_id;
     var patient_data_after;
     var patient_data_before;
-    db.query(`SELECT * FROM blood_sugar_before WHERE name='${request.params.patientId}'`, function(error, patient) {
+    var sql = `SELECT * FROM blood_sugar_before WHERE name='${request.params.patientId}'`;
+    db.query(sql, function(error, patient) {
         patient_data_before = template.data_list(patient, "공복혈당");
     });
-    db.query(`SELECT * FROM blood_sugar_after WHERE name='${request.params.patientId}'`, function(error, patient) {
+    sql = `SELECT * FROM blood_sugar_after WHERE name='${request.params.patientId}'`;
+    db.query(sql, function(error, patient) {
         patient_data_after = template.data_list(patient, "식후혈당");
     });
-    db.query(`SELECT * FROM patient`, function(error, patients) {
+    sql = `SELECT * FROM patient`;
+    db.query(sql, function(error, patients) {
         var list = template.list(patients, request.params.patientId, title);
         var html = page.HTML(title, id, list,
             `

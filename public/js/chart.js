@@ -43,7 +43,7 @@ window.onload = function () {
             },
             title: {
                 display: true,
-                text: 'Chart.js Bar Chart'
+                text: 'line Chart'
             },
             scales: {
                 yAxes: [{

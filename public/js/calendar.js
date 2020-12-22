@@ -9,32 +9,31 @@ class Calendar {
       container = "",
       activeDateClass = "",
       now_date = location.href.split('/')[(location.href.split('/').length-1)],
-      initialDate = new Date(now_date) } =
-    {}) {
-      this.$container = container ? document.querySelector(container) : null;
-      this.activeDateClass = activeDateClass;
-  
-      this.selectedDate = initialDate;
-      this.currentMonth = initialDate;
-      this.currentMonthDays = [];
+      initialDate = new Date(now_date)}={}) {
+        this.$container = container ? document.querySelector(container) : null;
+        this.activeDateClass = activeDateClass;
+    
+        this.selectedDate = initialDate;
+        this.currentMonth = initialDate;
+        this.currentMonthDays = [];
 
-      this.monthsNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"];
-  
-      this.generateMarkup();
-      this.bootstrapEvents();
-    }
+        this.monthsNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"];
+    
+        this.generateMarkup();
+        this.bootstrapEvents();
+      }
   
     /**
       * 현재 달력의 화면 생성
@@ -71,7 +70,7 @@ class Calendar {
       * 현재 달력 일 계산
       */
     getDayClass(date) {
-      var classes = ["wc-calendar__days-list__item"],
+      var classes = ["calendar_days-list_item"],
       curYear = this.currentMonth.getFullYear(),
       curMonth = this.currentMonth.getMonth(),
       firstMonthDay = new Date(curYear, curMonth, 1),
@@ -79,17 +78,17 @@ class Calendar {
   
       if (date.toDateString() === this.selectedDate.toDateString()) {
         classes = classes.concat([
-        "wc-calendar__days-list__item--active",
+        "calendar_days-list_item--active",
         this.activeDateClass]);
       }
       if (date.getMonth() === 11 && this.currentMonth.getMonth() === 0) {
-        classes.push("wc-calendar__days-list__item--prev-month");
+        classes.push("calendar_days-list_item--prev-month");
       } else if (date.getMonth() === 0 && this.currentMonth.getMonth() === 11) {
-        classes.push("wc-calendar__days-list__item--next-month");
+        classes.push("calendar_days-list_item--next-month");
       } else if (date.getMonth() < this.currentMonth.getMonth()) {
-        classes.push("wc-calendar__days-list__item--prev-month");
+        classes.push("calendar_days-list_item--prev-month");
       } else if (date.getMonth() > this.currentMonth.getMonth()) {
-        classes.push("wc-calendar__days-list__item--next-month");
+        classes.push("calendar_days-list_item--next-month");
       }
       return classes.join(" ");
     }
@@ -129,10 +128,10 @@ class Calendar {
       */
     refreshCalendar() {
       this.$container.querySelector(
-      ".wc-calendar__days-list").
+      ".calendar_days-list").
       innerHTML = this.generateDaysMarkup();
       this.$container.querySelector(
-      ".wc-calendar__header__date").
+      ".calendar_header_date").
       innerHTML = this.getFormattedDate(this.currentMonth);
     }
     /**
@@ -177,12 +176,12 @@ class Calendar {
       */
     selectDay(event) {
       var $target = event.target;
-      if ($target.classList.contains("wc-calendar__days-list__item")) {
+      if ($target.classList.contains("calendar_days-list_item")) {
         let isPrevMonth = $target.classList.contains(
-        "wc-calendar__days-list__item--prev-month"),
+        "calendar_days-list_item--prev-month"),
   
         isNextMonth = $target.classList.contains(
-        "wc-calendar__days-list__item--next-month");
+        "calendar_days-list_item--next-month");
   
   
         this.selectedDate = new Date($target.dataset.date);
@@ -198,16 +197,16 @@ class Calendar {
   
         } else {
           let $activeItem = this.$container.querySelector(
-          ".wc-calendar__days-list__item--active");
+          ".calendar_days-list_item--active");
   
           if ($activeItem) {
-            $activeItem.classList.remove("wc-calendar__days-list__item--active");
+            $activeItem.classList.remove("calendar_days-list_item--active");
             this.activeDateClass &&
             $activeItem.classList.remove(this.activeDateClass);
           }
         }
 
-        $target.classList.add("wc-calendar__days-list__item--active");
+        $target.classList.add("calendar_days-list_item--active");
         this.activeDateClass && $target.classList.add(this.activeDateClass);
 
         window.location.href = `./${this.getFormatDate(this.selectedDate)}`;
@@ -224,26 +223,26 @@ class Calendar {
         document.body.appendChild(calendarContainer);
         this.$container = calendarContainer;
       }
-      this.$container.classList.add("wc-calendar");
+      this.$container.classList.add("calendar");
       this.$container.innerHTML = `
-      <div class="wc-calendar__header">
-        <button class="wc-calendar__btn wc-calendar__btn--prev">Prev</button>
-        <div class="wc-calendar__header__date">${this.getFormattedDate(
+      <div class="calendar_header">
+        <button class="calendar_btn calendar_btn--prev">Prev</button>
+        <div class="calendar_header_date">${this.getFormattedDate(
           this.currentMonth)
           }</div>
-        <button class="wc-calendar__btn wc-calendar__btn--next">Next</button>
+        <button class="calendar_btn calendar_btn--next">Next</button>
       </div>
-      <div class="wc-calendar__body">
-        <ul class="wc-calendar__days-names">
-          <li class="wc-calendar__days-names__item">Mon</li>
-          <li class="wc-calendar__days-names__item">Tue</li>
-          <li class="wc-calendar__days-names__item">Wed</li>
-          <li class="wc-calendar__days-names__item">Thu</li>
-          <li class="wc-calendar__days-names__item">Fri</li>
-          <li class="wc-calendar__days-names__item">Sat</li>
-          <li class="wc-calendar__days-names__item">Sun</li>
+      <div class="calendar_body">
+        <ul class="calendar_days-names">
+          <li class="calendar_days-names_item">Mon</li>
+          <li class="calendar_days-names_item">Tue</li>
+          <li class="calendar_days-names_item">Wed</li>
+          <li class="calendar_days-names_item">Thu</li>
+          <li class="calendar_days-names_item">Fri</li>
+          <li class="calendar_days-names_item">Sat</li>
+          <li class="calendar_days-names_item">Sun</li>
         </ul>
-        <ul class="wc-calendar__days-list">
+        <ul class="calendar_days-list">
           ${this.generateDaysMarkup()}
         </ul>
       </div>
@@ -254,15 +253,15 @@ class Calendar {
       */
     bootstrapEvents() {
       this.$container.
-      querySelector(".wc-calendar__btn--prev").
+      querySelector(".calendar_btn--prev").
       addEventListener("click", this.prevMonth.bind(this));
 
       this.$container.
-      querySelector(".wc-calendar__btn--next").
+      querySelector(".calendar_btn--next").
       addEventListener("click", this.nextMonth.bind(this));
 
       this.$container.
-      querySelector(".wc-calendar__days-list").
+      querySelector(".calendar_days-list").
       addEventListener("click", this.selectDay.bind(this));
     }}
   

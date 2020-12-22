@@ -1,8 +1,8 @@
-.wc-calendar {
+.calendar {
     background-color: #fff;
   }
   
-  .wc-calendar__header {
+  .calendar_header {
     position: relative;
     height: 40px;
     border-bottom: 2px solid gray;
@@ -10,11 +10,11 @@
     text-align: center;
   }
   
-  .wc-calendar__header__date {
+  .calendar_header_date {
     display: inline-block;
   }
   
-  .wc-calendar__btn {
+  .calendar_btn {
     height: 32px;
     padding: 0 15px;
     border: none;
@@ -25,23 +25,23 @@
     background-color: #4889ff;
     cursor: pointer;
   }
-  .wc-calendar__btn:focus, .wc-calendar__btn:active {
+  .calendar_btn:focus, .calendar_btn:active {
     outline: none;
   }
-  .wc-calendar__btn:hover {
+  .calendar_btn:hover {
     background-color: #83afff;
   }
   
-  .wc-calendar__btn--prev {
+  .calendar_btn--prev {
     float: left;
   }
   
-  .wc-calendar__btn--next {
+  .calendar_btn--next {
     float: right;
   }
   
-  .wc-calendar__days-names,
-  .wc-calendar__days-list {
+  .calendar_days-names,
+  .calendar_days-list {
     display: -webkit-box;
     display: flex;
     flex-wrap: wrap;
@@ -49,40 +49,40 @@
     padding: 0;
   }
   
-  .wc-calendar__days-names {
+  .calendar_days-names {
     border-bottom: 1px solid #2f4f4f;
   }
   
-  .wc-calendar__days-names__item,
-  .wc-calendar__days-list__item {
+  .calendar_days-names_item,
+  .calendar_days-list_item {
     width: 14.2%;
     -webkit-box-flex: 1;
             flex-grow: 1;
     text-align: center;
   }
   
-  .wc-calendar__days-names__item {
+  .calendar_days-names_item {
     padding-top: 10px;
   }
   
-  .wc-calendar__days-list__item {
+  .calendar_days-list_item {
     height: 60px;
     line-height: 60px;
     cursor: pointer;
   }
   
-  .wc-calendar__days-list__item--active {
+  .calendar_days-list_item--active {
     color: #fff;
     background-color: #4889ff;
   }
   
-  .wc-calendar__days-list__item--prev-month,
-  .wc-calendar__days-list__item--next-month {
+  .calendar_days-list_item--prev-month,
+  .calendar_days-list_item--next-month {
     color: gray;
   }
   
-  .wc-calendar__days-list__item--active.wc-calendar__days-list__item--prev-month,
-  .wc-calendar__days-list__item--active.wc-calendar__days-list__item--next-month {
+  .calendar_days-list_item--active.calendar_days-list_item--prev-month,
+  .calendar_days-list_item--active.calendar_days-list_item--next-month {
     border: 1px solid #4889ff;
     background-color: #fff;
   }

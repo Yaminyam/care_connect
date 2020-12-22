@@ -6,6 +6,8 @@ var sanitizeHtml = require('sanitize-html');
 //template 파일을 이용해서 필요한 body값을 넣어주면 공통적인 html 코드를 자동 생성
 var template = require('../lib/template.js');
 var page = require('../lib/page.js')
+
+//db 설정
 var mysql = require('mysql');
 var db = mysql.createConnection({
     host:"localhost",
