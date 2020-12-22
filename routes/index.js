@@ -13,8 +13,8 @@ var db = mysql.createConnection({
     database:"care_connect",
     port:3306
 });
-//간호사 인증용 로그인 페이지
 
+//간호사 인증용 로그인 페이지
 router.get('/', function (req, res) {
     
     
@@ -37,7 +37,8 @@ router.get('/', function (req, res) {
     res.send(html);
 });
 
-router.post('/login', function(req, res){  //로그인
+//로그인
+router.post('/login', function(req, res){  
     console.log(req.body);
     var id = req.body.user_id;
     var password = req.body.user_pwd;

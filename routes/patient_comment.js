@@ -15,8 +15,8 @@ var db = mysql.createConnection({
     database:"care_connect",
     port:3306
 });
-//주간 환자 상태 체크 코멘트
 
+//코멘트 페이지 기본 환자 설정
 router.get('/', function(request, response) {
     var title = 'data';
     var id = request.session.user_id;
@@ -28,6 +28,8 @@ router.get('/', function(request, response) {
         response.redirect(`/comment/${patients[0].name}/${year}-${month}-${day}`);
     })
 });
+
+//환자 페이지 기본 날짜 설정
 router.get('/:patientId', function (request, response) {
     var title = 'data';
     var id = request.session.user_id;
@@ -37,6 +39,8 @@ router.get('/:patientId', function (request, response) {
     var day = date.getDate();
     response.redirect(`/comment/${request.params.patientId}/${year}-${month}-${day}`);
 })
+
+//주간 환자 상태 체크 코멘트
 router.get('/:patientId/:date', function (request, response) {
     var title = 'comment';
     var id = request.session.user_id;

@@ -1,6 +1,7 @@
 var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 var color = Chart.helpers.color;
 
+//차트에 필요한 데이터
 var chartdata_before = document.getElementById("공복혈당");
 var before_data = [];
 var chartdata_after = document.getElementById("식후혈당");
@@ -29,6 +30,7 @@ var barChartData = {
 
 };
 
+//차트 화면에 출력
 window.onload = function () {
     var ctx = document.getElementById('canvas').getContext('2d');
     window.myBar = new Chart(ctx, {
@@ -55,6 +57,7 @@ window.onload = function () {
     });
 };
 
+//차트 1달 추가
 document.getElementById('addData').addEventListener('click', function () {
     if (barChartData.datasets.length > 0) {
         var month = MONTHS[barChartData.labels.length % MONTHS.length];
@@ -69,7 +72,7 @@ document.getElementById('addData').addEventListener('click', function () {
     }
 });
 
-
+//차트 1달 삭제
 document.getElementById('removeData').addEventListener('click', function () {
     barChartData.labels.splice(-1, 1); // remove the label first
 

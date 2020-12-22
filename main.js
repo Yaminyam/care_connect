@@ -20,7 +20,7 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(compression());
 
-//DB
+//DB 설정
 app.use(session({
   secret: 'asdf',
   resave: false,

@@ -1,3 +1,4 @@
+//차트 기본 설정
 'use strict';
 
 window.chartColors = {

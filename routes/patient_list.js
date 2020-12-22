@@ -14,8 +14,8 @@ var db = mysql.createConnection({
     database:"care_connect",
     port:3306
 });
-//환자 목록 페이지
 
+//환자 목록 페이지
 router.get('/', function (request, response) {
     var title = 'list';
     var id = request.session.user_id;

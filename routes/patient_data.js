@@ -14,7 +14,8 @@ var db = mysql.createConnection({
     database:"care_connect",
     port:3306
 });
-//환자의 건강 상태 차트 및 데이터
+
+//데이터 페이지 기본 환자 설정
 router.get('/', function(request, response) {
     var title = 'data';
     var id = request.session.user_id;
@@ -22,6 +23,8 @@ router.get('/', function(request, response) {
         response.redirect(`/data/${patients[0].name}`);
     })
 });
+
+//환자의 건강 상태 차트 및 데이터
 router.get('/:patientId', function (request, response) {
     var title = 'data';
     var id = request.session.user_id;
@@ -81,10 +84,6 @@ router.get('/:patientId', function (request, response) {
         );
         response.send(html);
     });
-});
-
-router.post('/update_process', function (request, response) {
-    //차트 데이터 변경
 });
 
 module.exports = router;
