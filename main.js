@@ -11,6 +11,7 @@ app.use(helmet({
 var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
 
+//제작한 router 호출
 var indexRouter = require('./routes/index');
 var listRouter = require('./routes/patient_list');
 var dataRouter = require('./routes/patient_data');
